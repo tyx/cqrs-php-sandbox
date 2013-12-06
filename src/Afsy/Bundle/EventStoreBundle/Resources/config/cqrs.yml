@@ -1,0 +1,11 @@
+# In order to make lite-cqrs works on last dev-master modification
+services:
+    cqrs.event_store:
+        class: LiteCQRS\EventStore\OptimisticLocking
+        factory_class:  Afsy\CQRS\EventStoreFactory
+        factory_method: get
+        arguments: [@doctrine]
+
+    cqrs.event_source.repository:
+        class: LiteCQRS\EventStore\EventSourceRepository
+        arguments: [@cqrs.event_store, @litecqrs.event_message_bus]

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="Afsy\Bundle\EventStoreBundle\Entity\StreamData" table="event_stream_data">
+        <id name="id" type="string" length="36" column="uuid" />
+
+        <field name="className" type="string" column="class_name" />
+
+        <field name="eventData" type="array" column="event_data" />
+
+        <field name="version" type="string" column="version" nullable="true" />
+    </entity>
+</doctrine-mapping>

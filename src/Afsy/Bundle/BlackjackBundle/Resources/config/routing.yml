@@ -1,0 +1,19 @@
+game_homepage:
+    pattern:  /
+    defaults: { _controller: AfsyBlackjackBundle:Game:index }
+
+game_start:
+    pattern:  /game/start
+    defaults: { _controller: AfsyBlackjackBundle:Game:start }
+
+game_continue:
+    pattern:  /game/{id}/continue
+    defaults: { _controller: AfsyBlackjackBundle:Game:continue }
+
+game_stop:
+    pattern:  /game/{id}/stop
+    defaults: { _controller: AfsyBlackjackBundle:Game:stop }
+
+game_show:
+    pattern:  /game/{id}
+    defaults: { _controller: AfsyBlackjackBundle:Game:show }

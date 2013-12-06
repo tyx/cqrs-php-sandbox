@@ -1,0 +1,15 @@
+body {
+    font-family: "Helvetica Neue","Helvetica","Arial",sans-serif;
+}
+
+.main {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gamemat {
+    background: #339933;
+    border: 2px solid #333;
+    padding: 50px;
+    border-radius: 20px;
+}

@@ -1,0 +1,61 @@
+.afsy-card {
+    width: 77px;
+    height: 118px;
+    background: #FFF url(../img/playing_cards.png);
+    background-repeat: no-repeat;
+}
+.afsy-club-A { background-position: 0 0; }
+.afsy-club-2 { background-position: -77px 0; }
+.afsy-club-3 { background-position: -154px 0; }
+.afsy-club-4 { background-position: -231px 0; }
+.afsy-club-5 { background-position: -308px 0; }
+.afsy-club-6 { background-position: -385px 0; }
+.afsy-club-7 { background-position: -462px 0; }
+.afsy-club-8 { background-position: -539px 0; }
+.afsy-club-9 { background-position: -616px 0; }
+.afsy-club-10 { background-position: -693px 0; }
+.afsy-club-J { background-position: -770px 0; }
+.afsy-club-Q { background-position: -847px 0; }
+.afsy-club-K { background-position: -924px 0; }
+
+.afsy-diamond-A { background-position: 0 -118px; }
+.afsy-diamond-2 { background-position: -77px -118px; }
+.afsy-diamond-3 { background-position: -154px -118px; }
+.afsy-diamond-4 { background-position: -231px -118px; }
+.afsy-diamond-5 { background-position: -308px -118px; }
+.afsy-diamond-6 { background-position: -385px -118px; }
+.afsy-diamond-7 { background-position: -462px -118px; }
+.afsy-diamond-8 { background-position: -539px -118px; }
+.afsy-diamond-9 { background-position: -616px -118px; }
+.afsy-diamond-10 { background-position: -693px -118px; }
+.afsy-diamond-J { background-position: -770px -118px; }
+.afsy-diamond-Q { background-position: -847px -118px; }
+.afsy-diamond-K { background-position: -924px -118px; }
+
+.afsy-heart-A { background-position: 0 -236px; }
+.afsy-heart-2 { background-position: -77px -236px; }
+.afsy-heart-3 { background-position: -154px -236px; }
+.afsy-heart-4 { background-position: -231px -236px; }
+.afsy-heart-5 { background-position: -308px -236px; }
+.afsy-heart-6 { background-position: -385px -236px; }
+.afsy-heart-7 { background-position: -462px -236px; }
+.afsy-heart-8 { background-position: -539px -236px; }
+.afsy-heart-9 { background-position: -616px -236px; }
+.afsy-heart-10 { background-position: -693px -236px; }
+.afsy-heart-J { background-position: -770px -236px; }
+.afsy-heart-Q { background-position: -847px -236px; }
+.afsy-heart-K { background-position: -924px -236px; }
+
+.afsy-spade-A { background-position: 0 -354px; }
+.afsy-spade-2 { background-position: -77px -354px; }
+.afsy-spade-3 { background-position: -154px -354px; }
+.afsy-spade-4 { background-position: -231px -354px; }
+.afsy-spade-5 { background-position: -308px -354px; }
+.afsy-spade-6 { background-position: -385px -354px; }
+.afsy-spade-7 { background-position: -462px -354px; }
+.afsy-spade-8 { background-position: -539px -354px; }
+.afsy-spade-9 { background-position: -616px -354px; }
+.afsy-spade-10 { background-position: -693px -354px; }
+.afsy-spade-J { background-position: -770px -354px; }
+.afsy-spade-Q { background-position: -847px -354px; }
+.afsy-spade-K { background-position: -924px -354px; }
