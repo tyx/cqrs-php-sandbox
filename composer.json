@@ -19,7 +19,7 @@
         "sensio/framework-extra-bundle": "2.3.*",
         "sensio/generator-bundle": "2.3.*",
         "incenteev/composer-parameter-handler": "~2.0",
-        "beberlei/lite-cqrs": "dev-master"
+        "beberlei/lite-cqrs": "dev-fix/store-old-events@dev"
     },
     "scripts": {
         "post-install-cmd": [
@@ -37,6 +37,12 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/tyx/litecqrs-php"
+        }
+    ],
     "config": {
         "bin-dir": "bin"
     },

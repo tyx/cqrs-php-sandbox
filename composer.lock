@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "e974ac62207323c17a851f0c1bd02394",
+    "hash": "241d686e0af3f4ca96771099088f7d00",
     "packages": [
         {
             "name": "beberlei/lite-cqrs",
-            "version": "dev-master",
+            "version": "dev-fix/store-old-events",
             "source": {
                 "type": "git",
-                "url": "https://github.com/beberlei/litecqrs-php.git",
-                "reference": "8e6ae64f6db0a483c460e2295ea884d0680f185d"
+                "url": "https://github.com/tyx/litecqrs-php.git",
+                "reference": "618b480ab24b81a003ea04d05343ed957dc6d1e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beberlei/litecqrs-php/zipball/8e6ae64f6db0a483c460e2295ea884d0680f185d",
-                "reference": "8e6ae64f6db0a483c460e2295ea884d0680f185d",
+                "url": "https://api.github.com/repos/tyx/litecqrs-php/zipball/618b480ab24b81a003ea04d05343ed957dc6d1e7",
+                "reference": "618b480ab24b81a003ea04d05343ed957dc6d1e7",
                 "shasum": ""
             },
             "require": {
@@ -37,12 +37,14 @@
                     "LiteCQRS": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Simple Command-Query-Responsibility-Segregation library.",
-            "time": "2013-11-29 09:01:27"
+            "support": {
+                "source": "https://github.com/tyx/litecqrs-php/tree/fix/store-old-events"
+            },
+            "time": "2013-12-10 09:57:03"
         },
         {
             "name": "doctrine/annotations",
