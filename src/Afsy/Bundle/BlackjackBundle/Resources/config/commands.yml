@@ -1,9 +1,0 @@
-parameters:
-#    afsy_blackjack.example.class: Afsy\Bundle\BlackjackBundle\Example
-
-services:
-    afsy_blackjack.start_game.command_handler:
-        class: Afsy\Domain\Blackjack\CommandHandler\GameEngineHandler
-        arguments: [@afsy_blackjack.dealer, @cqrs.event_source.repository]
-        tags:
-            - { name: lite_cqrs.command_handler }

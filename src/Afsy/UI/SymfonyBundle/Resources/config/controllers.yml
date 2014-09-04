@@ -1,0 +1,8 @@
+services:
+    afsy_blackjack.game_command.controller:
+        class: Afsy\UI\Controller\GameCommandController
+        arguments: [@command_bus, @router]
+
+    afsy_blackjack.game_query.controller:
+        class: Afsy\UI\Controller\GameQueryController
+        arguments: [@afsy_blackjack.game_view.query, @templating]

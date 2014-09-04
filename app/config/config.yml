@@ -58,7 +58,20 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: %kernel.debug%
-        auto_mapping: true
+        entity_managers:
+            default:
+                auto_mapping: false
+                mappings:
+                    blackjack:
+                        type: xml
+                        dir: %kernel.root_dir%/../src/Afsy/Blackjack/Infra/Resources/doctrine
+                        prefix: Afsy\Blackjack\Domain\Model
+                        is_bundle: false
+                    event_store:
+                        type: xml
+                        dir: %kernel.root_dir%/../src/Afsy/Common/Infra/Resources/doctrine
+                        prefix: Afsy\Common\Domain\Entity
+                        is_bundle: false
 
 # Swiftmailer Configuration
 swiftmailer:

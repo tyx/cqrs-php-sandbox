@@ -1,6 +1,0 @@
-services:
-    afsy_blackjack.game_view.listener:
-        class: Afsy\Domain\Blackjack\Listener\GameViewListener
-        arguments: [@doctrine]
-        tags:
-            - { name: lite_cqrs.event_handler }

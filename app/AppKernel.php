@@ -17,8 +17,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new LiteCQRS\Plugin\SymfonyBundle\LiteCQRSBundle(),
-            new Afsy\Bundle\BlackjackBundle\AfsyBlackjackBundle(),
-            new Afsy\Bundle\EventStoreBundle\AfsyEventStoreBundle(),
+            new Afsy\UI\SymfonyBundle\AfsyBlackjackBundle
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,3 +1,0 @@
-services:
-    afsy_blackjack.dealer:
-        class: Afsy\Domain\Blackjack\Service\Dealer

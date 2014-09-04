@@ -1,0 +1,61 @@
+{% extends 'AfsyBlackjackBundle::app.html.twig' %}
+
+{% macro draw(cards) %}
+    <div class="ui horizontal list">
+        {% for card in cards %}
+            <div class="item">
+                {% if card.isUpturned %}
+                    <div class="afsy-card afsy-{{ card.color }}-{{ card.name }}"></div>
+                {% else %}
+                    <div><img src="/bundles/afsyblackjack/img/back.png" alt="" /></div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% import _self as cards %}
+
+{% block main %}
+    <div class="gamemat">
+        <h2>Bank</h2>
+        {{ cards.draw(game.bankCards) }}
+
+        <h2>Player</h2>
+        {{ cards.draw(game.playerCards) }}
+    </div>
+
+    {% if not game.winner %}
+        <p>
+            <a href="{{ path('game_continue', { id: game.id }) }}" class="ui button hover">Hit</a>
+            <a href="{{ path('game_stop', { id: game.id }) }}" class="ui button hover">Stand</a>
+        </p>
+    {% endif %}
+
+
+    {% if game.winner %}
+        <div class="ui dimmer hidden">
+            <div class="content">
+                <div class="center">
+                    <h2 class="ui inverted icon header">
+                        {% if game.winner == "player" %}
+                            <i class="icon circular inverted emphasized red thumbs up outline"></i>
+                            You win
+                        {% else %}
+                            <i class="icon circular inverted emphasized red thumbs down outline"></i>
+                            You lose
+                        {% endif %}
+                    </h2>
+                    <p>
+                        <a href="{{ path('game_start') }}" class="ui button hover">New game</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <script>
+            $('body .dimmer')
+                .dimmer('show')
+            ;
+        </script>
+    {% endif %}
+{% endblock %}

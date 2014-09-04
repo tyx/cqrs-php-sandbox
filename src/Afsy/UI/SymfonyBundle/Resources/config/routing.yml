@@ -1,0 +1,19 @@
+game_start:
+    pattern:  /game/start
+    defaults: { _controller: afsy_blackjack.game_command.controller:startAction }
+
+game_continue:
+    pattern:  /game/{id}/continue
+    defaults: { _controller: afsy_blackjack.game_command.controller:continueAction }
+
+game_stop:
+    pattern:  /game/{id}/stop
+    defaults: { _controller: afsy_blackjack.game_command.controller:stopAction }
+
+game_homepage:
+    pattern:  /
+    defaults: { _controller: afsy_blackjack.game_query.controller:indexAction }
+
+game_show:
+    pattern:  /game/{id}
+    defaults: { _controller: afsy_blackjack.game_query.controller:showAction }

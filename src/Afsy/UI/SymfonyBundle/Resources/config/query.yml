@@ -1,0 +1,4 @@
+services:
+    afsy_blackjack.game_view.query:
+        class: Afsy\App\GameViewQuery
+        arguments: [@afsy_blackjack.game_view.repository.orm]
