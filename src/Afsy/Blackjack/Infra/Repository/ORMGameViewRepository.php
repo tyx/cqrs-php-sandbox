@@ -25,7 +25,7 @@ class ORMGameViewRepository implements GameViewRepository
 
     public function save(GameView $gameView)
     {
-        $this->om->persist($game);
+        $this->om->persist($gameView);
         $this->om->flush();
     }
 }

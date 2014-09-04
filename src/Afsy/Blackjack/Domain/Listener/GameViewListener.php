@@ -7,67 +7,42 @@ use Afsy\Blackjack\Domain\Event\GameCreated;
 use Afsy\Blackjack\Domain\Event\GameOver;
 use Afsy\Blackjack\Domain\Model\GameView;
 
+use Afsy\Blackjack\Domain\Repository\GameViewRepository;
+
 class GameViewListener
 {
-    protected $doctrine;
+    protected $gameViewRepository;
 
-    public function __construct($doctrine)
+    public function __construct(GameViewRepository $gameViewRepository)
     {
-        $this->doctrine = $doctrine;
+        $this->gameViewRepository = $gameViewRepository;
     }
 
     public function onGameCreated(GameCreated $event)
     {
-        $game = new GameView();
-        $game->setId($event->id);
-
-        foreach ($event->players as $player) {
-            if ($player->isHuman()) {
-                $game->setPlayerCards($player->getCards());
-            } else {
-                $game->setBankCards($player->getCards());
-            }
-        }
-
-        $this->doctrine->getManager()->persist($game);
-        $this->doctrine->getManager()->flush();
+        $this->gameViewRepository->save(
+            new GameView($event->id, $event->players)
+        );
     }
 
     public function onCardDealt(CardDealt $event)
     {
-        $game = $this
-            ->doctrine
-            ->getManager()
-            ->getRepository('Afsy\Blackjack\Domain\Model\GameView')
-            ->find($event->id)
-        ;
+        $gameView = $this->gameViewRepository->find($event->id);
+        $gameView->distributeCards($event->player);
 
-        if ($event->player->isHuman()) {
-            $game->setPlayerCards($event->player->getCards());
-        } else {
-            $game->setBankCards($event->player->getCards());
-        }
-
-        $this->doctrine->getManager()->persist($game);
-        $this->doctrine->getManager()->flush();
+        $this->gameViewRepository->save($gameView);
     }
 
     public function onGameOver(GameOver $event)
     {
-        $game = $this
-            ->doctrine
-            ->getManager()
-            ->getRepository('Afsy\Blackjack\Domain\Model\GameView')
-            ->find($event->id)
-        ;
+        $game = $this->gameViewRepository->find($event->id);
 
         if ($event->player->isHuman()) {
-            $game->setWinner('bank');
+            $game->award('bank');
         } else {
-            $game->setWinner('player');
+            $game->award('player');
         }
 
-        $this->doctrine->getManager()->persist($game);
-        $this->doctrine->getManager()->flush();
+        $this->gameViewRepository->save($game);
     }
 }

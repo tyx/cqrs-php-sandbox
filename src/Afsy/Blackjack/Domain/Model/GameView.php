@@ -8,7 +8,7 @@ namespace Afsy\Blackjack\Domain\Model;
 class GameView
 {
     /**
-     * @var integer
+     * @var string
      */
     private $id;
 
@@ -27,23 +27,33 @@ class GameView
      */
     private $winner;
 
-    /**
-     * Set id
-     *
-     * @param uuid $id
-     * @return Game
-     */
-    public function setId($id)
+    public function __construct($id, array $players)
     {
         $this->id = $id;
 
-        return $this;
+        foreach ($players as $player) {
+            $this->distributeCards($player);
+        }
+    }
+
+    public function distributeCards(Player $player)
+    {
+        $cards = $player->getCards();
+
+        if ($player->isHuman()) {
+            $this->playerCards = $cards;
+        } else {
+            $this->bankCards = $cards;
+        }
+    }
+
+    public function award($winner)
+    {
+        $this->winner = $winner;
     }
 
     /**
-     * Get id
-     *
-     * @return integer
+     * @return string
      */
     public function getId()
     {
@@ -51,21 +61,6 @@ class GameView
     }
 
     /**
-     * Set playerCards
-     *
-     * @param array $playerCards
-     * @return Game
-     */
-    public function setPlayerCards($playerCards)
-    {
-        $this->playerCards = $playerCards;
-
-        return $this;
-    }
-
-    /**
-     * Get playerCards
-     *
      * @return array
      */
     public function getPlayerCards()
@@ -73,27 +68,7 @@ class GameView
         return $this->playerCards;
     }
 
-    public function addPlayerCard($card)
-    {
-        $this->playerCards[] = $card;
-    }
-
     /**
-     * Set bankCards
-     *
-     * @param array $bankCards
-     * @return Game
-     */
-    public function setBankCards($bankCards)
-    {
-        $this->bankCards = $bankCards;
-
-        return $this;
-    }
-
-    /**
-     * Get bankCards
-     *
      * @return array
      */
     public function getBankCards()
@@ -101,27 +76,7 @@ class GameView
         return $this->bankCards;
     }
 
-    public function addBankCard($card)
-    {
-        $this->bankCards[] = $card;
-    }
-
     /**
-     * Set winner
-     *
-     * @param string $winner
-     * @return Game
-     */
-    public function setWinner($winner)
-    {
-        $this->winner = $winner;
-
-        return $this;
-    }
-
-    /**
-     * Get winner
-     *
      * @return string
      */
     public function getWinner()
