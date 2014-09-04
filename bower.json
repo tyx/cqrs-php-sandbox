@@ -1,0 +1,21 @@
+{
+  "name": "cqrs-php-sandbox",
+  "version": "1.0.0",
+  "homepage": "https://github.com/tyx/cqrs-php-sandbox",
+  "authors": [
+    "Timothée Barray <tim@amicalement-web.net>"
+  ],
+  "main": "web/afsyblackjack/css/main.css",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "semantic-ui": "~0.19.0"
+  }
+}
