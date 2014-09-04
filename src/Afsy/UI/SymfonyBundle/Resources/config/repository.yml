@@ -1,4 +1,8 @@
 services:
     afsy_blackjack.game_view.repository.orm:
-        class: Afsy\Blackjack\Infra\Repository\GameViewRepository
+        class: Afsy\Blackjack\Infra\Repository\ORMGameViewRepository
         arguments: [@doctrine.orm.entity_manager]
+
+    afsy_blackjack.game.repository.event_source:
+        class: Afsy\Blackjack\Infra\Repository\EventSourceGameRepository
+        arguments: [@cqrs.event_source.repository]

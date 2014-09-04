@@ -1,6 +1,6 @@
 services:
     afsy_blackjack.start_game.command_handler:
         class: Afsy\App\GameEngineService
-        arguments: [@afsy_blackjack.dealer, @cqrs.event_source.repository]
+        arguments: [@afsy_blackjack.dealer, @afsy_blackjack.game.repository.event_source]
         tags:
             - { name: lite_cqrs.command_handler }

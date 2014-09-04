@@ -4,11 +4,13 @@ namespace Afsy\App;
 
 use Rhumsaa\Uuid\Uuid;
 
+use Afsy\Blackjack\Domain\Repository\GameViewRepository;
+
 class GameViewQuery
 {
     private $gameViewRepository;
 
-    public function __construct($gameViewRepository)
+    public function __construct(GameViewRepository $gameViewRepository)
     {
         $this->gameViewRepository = $gameViewRepository;
     }

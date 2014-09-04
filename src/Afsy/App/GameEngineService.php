@@ -3,6 +3,7 @@
 namespace Afsy\App;
 
 use Afsy\Blackjack\Domain\Model;
+use Afsy\Blackjack\Domain\Repository\GameRepository;
 use Afsy\Blackjack\Domain\Service\Dealer;
 
 class GameEngineService
@@ -11,7 +12,7 @@ class GameEngineService
 
     protected $repository;
 
-    public function __construct(Dealer $dealer, $repository)
+    public function __construct(Dealer $dealer, GameRepository $repository)
     {
         $this->dealer = $dealer;
         $this->repository = $repository;
@@ -30,7 +31,7 @@ class GameEngineService
 
     public function dealCard(Command\DealCardCommand $command)
     {
-        $game = $this->repository->find('Afsy\Blackjack\Domain\Model\Game', $command->gameId);
+        $game = $this->repository->find($command->gameId);
         $game->deal();
 
         $this->repository->save($game);
@@ -38,7 +39,7 @@ class GameEngineService
 
     public function stopDealCard(Command\StopDealCardCommand $command)
     {
-        $game = $this->repository->find('Afsy\Blackjack\Domain\Model\Game', $command->gameId);
+        $game = $this->repository->find($command->gameId);
         $game->stop();
 
         $this->repository->save($game);
