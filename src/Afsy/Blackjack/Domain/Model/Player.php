@@ -12,15 +12,15 @@ class Player
 
     protected $gameOver = false;
 
-    public function __construct(PlayerIdentity $identity, Hand $hand)
+    public function __construct(PlayerIdentity $identity)
     {
         $this->identity = $identity;
-        $this->hand = $hand;
+        $this->hand = new Hand;
     }
 
-    public function receiveCards($cards)
+    public function receiveCard(Card $card)
     {
-        return $this->hand->receiveCards($cards);
+        return $this->hand->receiveCard($card);
     }
 
     public function getCards()
@@ -28,9 +28,14 @@ class Player
         return $this->hand->getCards();
     }
 
-    public function getPoints()
+    public function getHand()
     {
-        return $this->hand->getPoints();
+        return $this->hand;
+    }
+
+    public function getScore()
+    {
+        return $this->hand->getScore();
     }
 
     public function isHuman()

@@ -11,6 +11,7 @@ use Afsy\Blackjack\Domain\Event\DealerStopped;
 use Afsy\Blackjack\Domain\Specification\PlayerBustedSpec;
 use Afsy\Blackjack\Domain\Specification\DealerLimitSpec;
 use Afsy\Blackjack\Domain\Specification\GetVisibleCardSpec;
+use Afsy\Blackjack\Domain\Service\Croupier;
 
 class Game extends AggregateRoot
 {
@@ -41,17 +42,17 @@ class Game extends AggregateRoot
                 $card = $discardPile->deal(
                     $visibleCard->isSatisfiedBy($player, $i)
                 );
-                $player->receiveCards([$card]);
+                $player->receiveCard($card);
             }
         }
 
         $this->apply(new GameCreated($this->getId(), $players, $discardPile));
     }
 
-    public function deal()
+    public function dealCard()
     {
         $player = $this->getCurrentPlayer();
-        $player->receiveCards(array($this->discardPile->deal(true)));
+        $player->receiveCard($this->discardPile->deal(true));
 
         $this->apply(new CardDealt($this->getId(), $player, $this->discardPile));
 
@@ -68,10 +69,9 @@ class Game extends AggregateRoot
         }
     }
 
-    public function stop()
+    public function stopDealCard()
     {
-        $player = $this->getCurrentPlayer();
-        $player->stop();
+        $this->getCurrentPlayer()->stop();
         $this->nextPlayer();
 
         while ($this->getCurrentPlayer()->isInGame()) {
@@ -114,16 +114,9 @@ class Game extends AggregateRoot
 
     public function verifyWinner()
     {
-        $max = 0;
-
-        foreach ($this->players as $index => $player) {
-            if ($player->getPoints() > $max) {
-                $max = $player->getPoints();
-                $this->winner = $player;
-            }
-        }
-
-        return $this->winner;
+        // should be injected
+        $croupier = new Croupier;
+        $this->winner = $croupier->findWinner($this->players);
     }
 
     protected function applyGameCreated($event)

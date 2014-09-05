@@ -6,7 +6,7 @@ class DiscardPile
 {
     protected $cards;
 
-    public function __construct($cards)
+    public function __construct(array $cards)
     {
         $this->cards = $cards;
     }
@@ -20,10 +20,5 @@ class DiscardPile
         }
 
         return $card;
-    }
-
-    public function countCards()
-    {
-        return count($this->cards);
     }
 }

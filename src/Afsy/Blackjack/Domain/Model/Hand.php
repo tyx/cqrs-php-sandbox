@@ -4,16 +4,20 @@ namespace Afsy\Blackjack\Domain\Model;
 
 class Hand
 {
-    protected $cards;
+    private $cards;
 
-    public function __construct($cards = array())
+    private $score;
+
+    public function __construct()
     {
-        $this->cards = $cards;
+        $this->cards = array();
+        $this->score = 0;
     }
 
-    public function receiveCards($cards)
+    public function receiveCard(Card $card)
     {
-        $this->cards = array_merge($this->cards, $cards);
+        $this->cards[] = $card;
+        $this->score += $card->getPoints();
     }
 
     public function getCards()
@@ -21,18 +25,8 @@ class Hand
         return $this->cards;
     }
 
-    public function getPoints()
+    public function getScore()
     {
-        $score = 0;
-
-        foreach ($this->cards as $card) {
-            $card->upturn();
-
-            foreach ($card->getPoints() as $v) {
-                $score += $v;
-            }
-        }
-
-        return $score;
+        return $this->score;
     }
 }

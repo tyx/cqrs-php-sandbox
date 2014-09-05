@@ -57,6 +57,7 @@ class Card
 
     public function getPoints()
     {
-        return $this->points;
+        // Even Card can have multiple values, for now we consider there is only one
+        return current($this->points);
     }
 }

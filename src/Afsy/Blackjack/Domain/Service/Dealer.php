@@ -4,13 +4,17 @@ namespace Afsy\Blackjack\Domain\Service;
 
 use Afsy\Blackjack\Domain\Model\Card;
 use Afsy\Blackjack\Domain\Model\DiscardPile;
+use Afsy\Blackjack\Domain\Model\GameRules;
 
 class Dealer
 {
-    public function createDiscardPile($colors, $value)
+    public function deal(GameRules $gameRules)
     {
+        $colors = $gameRules->getCardColors();
+        $values = $gameRules->getCardValues();
+
         foreach ($colors as $color) {
-            foreach ($value as $name => $points) {
+            foreach ($values as $name => $points) {
                 $cards[] = new Card($color, $name, $points);
             }
         }

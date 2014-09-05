@@ -6,7 +6,7 @@ class GameRules
 {
     private $cardColors = ['diamond', 'heart', 'spade', 'club'];
 
-    private $cardNames = [
+    private $cardValues = [
         'A' => [11],
         '2' => [2],
         '3' => [3],
@@ -22,8 +22,13 @@ class GameRules
         'K' => [10]
     ];
 
-    public function deal($dealer)
+    public function getCardColors()
     {
-        return $dealer->createDiscardPile($this->cardColors, $this->cardNames);
+        return $this->cardColors;
+    }
+
+    public function getCardValues()
+    {
+        return $this->cardValues;
     }
 }

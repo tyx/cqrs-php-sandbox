@@ -10,6 +10,6 @@ class PlayerBustedSpec
 
     public function isSatisfiedBy(Player $player)
     {
-        return $player->getPoints() > self::SCORE_LIMIT;
+        return $player->getScore() > self::SCORE_LIMIT;
     }
 }
