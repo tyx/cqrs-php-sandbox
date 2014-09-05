@@ -7,16 +7,16 @@ use Afsy\Blackjack\Domain\Model\DiscardPile;
 
 class GameCreated extends DefaultDomainEvent
 {
-    public $id;
-
     public $players;
 
     public $discardPile;
 
-    public function __construct($id, $players, DiscardPile $discardPile)
+    public $round;
+
+    public function __construct(array $players, DiscardPile $discardPile, $round)
     {
-        $this->id = $id;
         $this->players = $players;
         $this->discardPile = $discardPile;
+        $this->round = $round;
     }
 }

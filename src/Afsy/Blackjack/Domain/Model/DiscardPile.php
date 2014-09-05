@@ -2,6 +2,8 @@
 
 namespace Afsy\Blackjack\Domain\Model;
 
+use Afsy\Blackjack\Domain\Specification\GetVisibleCardSpec;
+
 class DiscardPile
 {
     protected $cards;
@@ -11,7 +13,28 @@ class DiscardPile
         $this->cards = $cards;
     }
 
-    public function deal($upturned = false)
+    public function dealToPlayer(Player $player, $round)
+    {
+        $visibleCard = new GetVisibleCardSpec;
+
+        if ($visibleCard->isSatisfiedBy($player, $round)) {
+            $player->receiveCard($this->dealUpturned());
+        } else {
+            $player->receiveCard($this->dealDownturned());
+        }
+    }
+
+    private function dealUpturned()
+    {
+        return $this->deal(true);
+    }
+
+    private function dealDownturned()
+    {
+        return $this->deal(false);
+    }
+
+    private function deal($upturned = false)
     {
         $card = array_shift($this->cards);
 

@@ -3,14 +3,12 @@
 namespace Afsy\Blackjack\Domain\Model;
 
 use LiteCQRS\AggregateRoot;
+use Rhumsaa\Uuid\Uuid;
 
 use Afsy\Blackjack\Domain\Event\CardDealt;
 use Afsy\Blackjack\Domain\Event\GameCreated;
 use Afsy\Blackjack\Domain\Event\GameOver;
 use Afsy\Blackjack\Domain\Event\DealerStopped;
-use Afsy\Blackjack\Domain\Specification\PlayerBustedSpec;
-use Afsy\Blackjack\Domain\Specification\DealerLimitSpec;
-use Afsy\Blackjack\Domain\Specification\GetVisibleCardSpec;
 use Afsy\Blackjack\Domain\Service\Croupier;
 
 class Game extends AggregateRoot
@@ -27,44 +25,38 @@ class Game extends AggregateRoot
 
     protected $winner;
 
-    public function __construct($id)
+    protected $round;
+
+    public function __construct(Uuid $id)
     {
         $this->setId($id);
     }
 
-    public function start($nbPlayers, $discardPile)
+    public function start(array $players, DiscardPile $discardPile)
     {
-        $players = $this->createPlayers($nbPlayers);
-        $visibleCard = new GetVisibleCardSpec();
+        $this->round = 0;
+        $nbCardsToDistribute = 2;
 
-        for ($i = 0; $i < 2; $i++) {
-            foreach ($players as $player) {
-                $card = $discardPile->deal(
-                    $visibleCard->isSatisfiedBy($player, $i)
-                );
-                $player->receiveCard($card);
-            }
-        }
+        $this->distributeCards($discardPile, $players, $nbCardsToDistribute);
 
-        $this->apply(new GameCreated($this->getId(), $players, $discardPile));
+        $this->apply(new GameCreated($players, $discardPile, $this->round));
     }
 
     public function dealCard()
     {
+        $this->guardGameIsStarted();
+
         $player = $this->getCurrentPlayer();
-        $player->receiveCard($this->discardPile->deal(true));
+        $this->discardPile->dealToPlayer($player, $this->round);
+        $this->round++;
 
-        $this->apply(new CardDealt($this->getId(), $player, $this->discardPile));
+        $this->apply(new CardDealt($this->getId(), $player, $this->discardPile, $this->round));
 
-        $bustedSpec = new PlayerBustedSpec();
-
-        if ($bustedSpec->isSatisfiedBy($player)) {
+        if ($player->isBusted()) {
             $this->apply(new GameOver($this->getId(), $player));
         }
 
-        $dealerSpec = new DealerLimitSpec();
-
-        if ($dealerSpec->isSatisfiedBy($player)) {
+        if ($player->hasReachedDealerLimits()) {
             $this->apply(new DealerStopped($this->getId(), $player));
         }
     }
@@ -75,7 +67,7 @@ class Game extends AggregateRoot
         $this->nextPlayer();
 
         while ($this->getCurrentPlayer()->isInGame()) {
-            $this->deal();
+            $this->dealCard();
         }
     }
 
@@ -84,7 +76,41 @@ class Game extends AggregateRoot
         return $this->players[$this->currentPlayerIndex];
     }
 
-    public function nextPlayer()
+    public function verifyWinner()
+    {
+        // should be injected
+        $croupier = new Croupier;
+        $this->winner = $croupier->findWinner($this->players);
+    }
+
+    protected function applyGameCreated(GameCreated $event)
+    {
+        $this->nbPlayers = count($event->players);
+        $this->players = $event->players;
+        $this->currentPlayerIndex = 0;
+        $this->discardPile = $event->discardPile;
+        $this->round = $event->round;
+    }
+
+    protected function applyCardDealt(CardDealt $event)
+    {
+        $this->discardPile = $event->discardPile;
+        $this->round = $event->round;
+    }
+
+    protected function applyGameOver(GameOver $event)
+    {
+        $event->player->gameOver();
+        $this->nextPlayer();
+        $this->winner = $this->getCurrentPlayer();
+    }
+
+    protected function applyDealerStopped(DealerStopped $event)
+    {
+        $this->verifyWinner();
+    }
+
+    private function nextPlayer()
     {
         $this->currentPlayerIndex += 1;
 
@@ -95,52 +121,20 @@ class Game extends AggregateRoot
         return $this->currentPlayerIndex;
     }
 
-    public function createPlayers($nbPlayers)
+    private function distributeCards(DiscardPile $discardPile, array $players, $nbCards)
     {
-        $players = [];
-
-        for ($i = 0; $i < $nbPlayers; $i++) {
-            if (0 == $i) {
-                $identity = new PlayerIdentity('Joueur 1', true);
-            } else {
-                $identity = new PlayerIdentity('Computer '.$i, false);
+        for ($i = 0; $i < $nbCards; $i++) {
+            foreach ($players as $player) {
+                $discardPile->dealToPlayer($player, $this->round);
             }
-
-            $players[] = new Player($identity, new Hand());
+            $this->round++;
         }
-
-        return $players;
     }
 
-    public function verifyWinner()
+    private function guardGameIsStarted()
     {
-        // should be injected
-        $croupier = new Croupier;
-        $this->winner = $croupier->findWinner($this->players);
-    }
-
-    protected function applyGameCreated($event)
-    {
-        $this->nbPlayers = count($event->players);
-        $this->players = $event->players;
-        $this->currentPlayerIndex = 0;
-        $this->discardPile = $event->discardPile;
-    }
-
-    protected function applyCardDealt($event)
-    {
-        $this->discardPile = $event->discardPile;
-    }
-
-    protected function applyGameOver($event)
-    {
-        $event->player->gameOver();
-        $this->nextPlayer();
-        $this->winner = $this->getCurrentPlayer();
-    }
-
-    protected function applyDealerStopped($event)
-    {
-        $this->verifyWinner();
+        if (null === $this->discardPile || null === $this->players) {
+            throw new \LogicException('Game should be started.');
+        }
     }
 }

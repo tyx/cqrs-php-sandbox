@@ -6,8 +6,8 @@ use Afsy\Blackjack\Domain\Model\Player;
 
 class GetVisibleCardSpec
 {
-    public function isSatisfiedBy(Player $player, $index)
+    public function isSatisfiedBy(Player $player, $round)
     {
-        return $player->isHuman() || $index != 1;
+        return $player->isHuman() || $round != 1;
     }
 }

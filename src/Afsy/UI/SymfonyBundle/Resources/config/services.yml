@@ -1,3 +1,6 @@
 services:
     afsy_blackjack.dealer:
         class: Afsy\Blackjack\Domain\Service\Dealer
+
+    afsy_blackjack.table:
+        class: Afsy\Blackjack\Domain\Service\Table

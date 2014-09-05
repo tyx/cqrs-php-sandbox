@@ -10,6 +10,6 @@ class DealerLimitSpec
 
     public function isSatisfiedBy(Player $player)
     {
-        return $player->getScore() >= self::SCORE_LIMIT;
+        return $player->isBank() && $player->getScore() >= self::SCORE_LIMIT;
     }
 }
