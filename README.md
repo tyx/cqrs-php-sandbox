@@ -1,3 +1,5 @@
+[Outdated] To see a fresher example of CQRS - EventSourcing real world app : https://github.com/shouze/parkedLife
+
 cqrs-php-sandbox
 ================
 
